@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Style from "./Home.module.scss";
-import me from "../../img/1.png";
+import me from "../../img/portfolio.png";
 import classNames from "classnames";
 import EmojiBullet from "./EmojiBullet";
 import SocialIcon from "./SocialIcon";
 import { Box } from "@mui/material";
 import { info } from "../../info/Info";
+import { services } from "../../service";
 
 export default function Home() {
+
+  const [data, setData] = useState();
+  useEffect(() => {
+    services
+      .Profile()
+      .then((res) => res.json())
+      .then((res) => setData(res));
+  }, []);
+  
   return (
     <Box
       component={"main"}
@@ -39,13 +49,13 @@ export default function Home() {
               webkitTextFillColor: "transparent",
             }}
           >
-            {info.firstName}
+            {data?.firstName}
           </span>
           <span className={Style.hand}>🤚</span>
         </h1>
-        <h2>I'm {info.position}.</h2>
+        <h2>I'm {data?.position}.</h2>
         <Box component={"ul"} p={"0.8rem"}>
-          {info.miniBio.map((bio) => (
+          {data && data.minibio?.map((bio) => (
             <EmojiBullet emoji={bio.emoji} text={bio.text} />
           ))}
         </Box>
@@ -55,7 +65,7 @@ export default function Home() {
           justifyContent={"center"}
           fontSize={{ xs: "2rem", md: "2.5rem" }}
         >
-          {info.socials.map((social) => (
+          {data && data.socials?.map((social) => (
             <SocialIcon link={social.link} icon={social.icon} />
           ))}
         </Box>

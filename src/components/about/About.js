@@ -1,27 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Style from "./About.module.scss";
 import Terminal from "./Terminal";
 import { Box } from "@mui/material";
 import { info } from "../../info/Info";
-
+import { services } from "../../service";
 export default function About() {
-  const firstName = info.firstName.toLowerCase();
+ const [data, setData] = useState();
+    useEffect(() => {
+      services
+        .aboutme()
+        .then((res) => res.json())
+        .then((res) => setData(res));
+    }, []);
+
+    const firstName = data?.firstName.toLowerCase();
+    const lastName = data?.lastName.toLowerCase();
 
   function aboutMeText() {
+    
     return (
       <>
         <p>
           <span style={{ color: info.baseColor }}>
             {firstName}
-            {info.lastName.toLowerCase()} $
+            {lastName} $
           </span>{" "}
-          cat about{firstName}{" "}
+          cat about/{firstName}{" "}
         </p>
         <p>
           <span style={{ color: info.baseColor }}>
             about{firstName} <span className={Style.green}>(main)</span> ${" "}
           </span>
-          {info.bio}
+          {data && data?.bio}
         </p>
       </>
     );
@@ -33,7 +43,7 @@ export default function About() {
         <p>
           <span style={{ color: info.baseColor }}>
             {firstName}
-            {info.lastName.toLowerCase()} $
+            {lastName} $
           </span>{" "}
           cd skills/tools
         </p>
@@ -45,13 +55,13 @@ export default function About() {
         </p>
         <p style={{ color: info.baseColor }}> Front End</p>
         <ul className={Style.skills}>
-          {info.skills.proficientWith.map((proficiency) => (
+          {data && data?.skills?.proficientWith?.map((proficiency) => (
             <li>{proficiency}</li>
           ))}
         </ul>
         <p style={{ color: info.baseColor }}> Back End</p>
         <ul className={Style.skills}>
-          {info.skills.exposedTo.map((skill) => (
+          {data && data?.skills?.exposedTo?.map((skill) => (
             <li>{skill}</li>
           ))}
         </ul>
@@ -65,7 +75,7 @@ export default function About() {
         <p>
           <span style={{ color: info.baseColor }}>
             {firstName}
-            {info.lastName.toLowerCase()} $
+            {lastName} $
           </span>{" "}
           cd hobbies/interests
         </p>
@@ -76,7 +86,7 @@ export default function About() {
           ls
         </p>
         <ul>
-          {info.hobbies.map((hobby) => (
+          {data && data?.hobbies.map((hobby) => (
             <li>
               <Box component={"span"} mr={"1rem"}>
                 {hobby.emoji}

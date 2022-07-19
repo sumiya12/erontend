@@ -44,8 +44,8 @@ export default function BaseLayout() {
             width={"100%"}
           >
             <p>
-              template created with &hearts; by{" "}
-              <a href={"https://paytonpierce.dev"}>Sumiya Bat-Ulzii</a>
+               &hearts; by{" "}
+              <a href={"https://facebook.com/Sumiya03"}>Sumiya Bat-Ulzii</a>
             </p>
             <p>&copy; 2022</p>
           </Box>
